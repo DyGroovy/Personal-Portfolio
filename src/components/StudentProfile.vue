@@ -9,7 +9,7 @@
           <p class="blue-label">SUBJECT: DRZP-30</p>
           <p>dylanpangilinan30@gmail.com</p>
           <p>mdrpangilinan1@tip.edu.ph</p>
-          <p>TIP MANILA // CP-E</p>
+          <p>TIP MANILA // CPE</p>
         </div>
       </div>
 
