@@ -25,7 +25,7 @@
 
     <footer class="spider-footer">
       <div class="footer-line"></div>
-      <p>DYLAN RANZE PANGILINAN // CP-E PORTFOLIO v2026.0</p>
+      <p>DYLAN RANZE PANGILINAN // CPE PORTFOLIO</p>
       <p class="timestamp">SYSTEM STATUS: ONLINE</p>
     </footer>
   </div>
