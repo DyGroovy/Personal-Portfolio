@@ -1,235 +1,72 @@
 <template>
-  <div id="app" :class="{ 'login-page': isLoginPage }">
-    <nav v-if="!isLoginPage">
-      <div class="logo">Pangilinan, Dylan Ranze Z.</div>
-      <ul>
-        <li><router-link to="/portfolio/profile">Profile</router-link></li>
-        <li><router-link to="/portfolio/showcase">Showcase</router-link></li>
-        <li><router-link to="/portfolio/contact">Contact</router-link></li>
-        <li><router-link to="/portfolio/creative">Creative</router-link></li>
-        <li class="dropdown">
-          <span @click="toggleMenu" class="menu-icon">☰</span>
-          <ul v-show="showMenu" class="dropdown-content">
-            <li><router-link to="/portfolio/profile">Profile</router-link></li>
-            <li><router-link to="/portfolio/showcase">Showcase</router-link></li>
-            <li><router-link to="/portfolio/contact">Contact</router-link></li>
-            <li><router-link to="/portfolio/creative">Creative</router-link></li>
-            <li @click="logout">Logout</li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
+  <div id="app">
+    <header class="spider-nav">
+      <div class="nav-container">
+        <div class="logo">
+          <span class="spider-symbol">🕸️</span>
+          <span class="logo-text">DRZP // PROTOCOL</span>
+        </div>
+        <nav class="links">
+          <router-link to="/" exact-active-class="active">PROFILE</router-link>
+          <router-link to="/company" active-class="active">COMPANY</router-link>
+          <router-link to="/experience" active-class="active">EXPERIENCE</router-link>
+          <router-link to="/skills" active-class="active">SKILLS</router-link>
+          <router-link to="/reflection" active-class="active">REFLECTION</router-link>
+        </nav>
+      </div>
+    </header>
 
-    <router-view @login-success="handleLogin"></router-view>
-    
-    <FooterView v-if="!isLoginPage" />
+    <main class="viewport">
+      <transition name="web-fade" mode="out-in">
+        <router-view />
+      </transition>
+    </main>
+
+    <footer class="spider-footer">
+      <p>DYLAN RANZE PANGILINAN // CPE PORTFOLIO </p>
+    </footer>
   </div>
 </template>
 
-<script>
-import FooterView from '@/components/FooterView.vue';
+<style>
+/* Global Spider-Theme Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-export default {
-  name: 'App',
-  components: {
-    FooterView
-  },
-  data() {
-    return {
-      isAuthenticated: localStorage.getItem('auth') === 'true',
-      showMenu: false
-    };
-  },
-  computed: {
-    isLoginPage() {
-      return this.$route.path === '/login';
-    }
-  },
-  methods: {
-    handleLogin() {
-      this.isAuthenticated = true; 
-      localStorage.setItem('auth', 'true');
-    },
-    toggleMenu() {
-      this.showMenu = !this.showMenu; 
-    },
-    logout() {
-      localStorage.removeItem('auth');
-      this.isAuthenticated = false;
-      this.$router.push('/login');
-    }
-  },
-  watch: {
-    '$route'() {
-      this.isAuthenticated = localStorage.getItem('auth') === 'true';
-    }
-  }
-};
-</script>
+body {
+  background-color: #05050a;
+  /* Red Grid Background Pattern */
+  background-image: 
+    linear-gradient(rgba(225, 29, 46, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(225, 29, 46, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  color: #fff;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.web-fade-enter-active, .web-fade-leave-active { transition: all 0.3s ease; }
+.web-fade-enter-from { opacity: 0; transform: translateY(10px); }
+</style>
 
 <style scoped>
-body {
-  margin: 0;
-  font-family: 'Georgia', serif; 
-  color: #333;
-  padding-top: 60px;
-  background-color: #f5f5f5;
+.spider-nav {
+  background: rgba(5, 5, 15, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid #e11d2e;
+  position: sticky;
+  top: 0; z-index: 1000;
+  box-shadow: 0 4px 20px rgba(225, 29, 46, 0.3);
 }
-
-#app {
-  max-width: 1200px;
-  margin: 0 auto;
+.nav-container {
+  max-width: 1200px; margin: 0 auto; height: 70px;
+  display: flex; justify-content: space-between; align-items: center; padding: 0 20px;
 }
-
-nav {
-  background-color: #000;
-  padding: 15px 30px;
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  width: 100%; 
-  z-index: 1000;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box; 
+.logo-text { font-weight: 900; letter-spacing: 2px; font-size: 1.1rem; }
+.links a {
+  color: #888; text-decoration: none; font-weight: 700; font-size: 0.8rem;
+  margin-left: 20px; transition: 0.3s;
 }
-
-.logo {
-  font-size: 28px;
-  font-weight: bold;
-  color: #fff;
-}
-
-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  gap: 30px;
-  flex-grow: 1;
-  justify-content: flex-end; 
-}
-
-nav ul li a {
-  color: #fff;
-  text-decoration: none;
-  padding: 10px 15px;
-  transition: color 0.3s, box-shadow 0.3s;
-  border-radius: 5px;
-}
-
-nav ul li a:hover {
-  color: #FFD700;
-  box-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
-}
-
-.menu-icon {
-  cursor: pointer;
-  color: #fff;
-  font-size: 24px;
-  padding: 10px 15px;
-  transition: transform 0.3s ease;
-}
-
-.menu-icon:hover {
-  transform: rotate(90deg); 
-}
-
-.dropdown {
-  position: relative;
-}
-
-.dropdown-content {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background-color: #1e1e1e; 
-  border-radius: 10px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1001;
-  display: flex;
-  flex-direction: column;
-  padding: 10px 0;
-  min-width: 180px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-  transition: visibility 0s, opacity 0.3s ease, transform 0.3s ease;
-}
-
-.dropdown:hover .dropdown-content {
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.dropdown-content li {
-  padding: 12px 20px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  border-bottom: 1px solid #444;
-}
-
-.dropdown-content li:last-child {
-  border-bottom: none;
-}
-
-.dropdown-content li a,
-.dropdown-content li {
-  color: #fff;
-  text-decoration: none;
-  display: block;
-  cursor: pointer;
-}
-
-.dropdown-content li:hover {
-  background-color: #555;
-  transform: translateX(5px); 
-}
-
-.dropdown-content li:last-child:hover {
-  background-color: #E74C3C;
-}
-
-.dropdown-content li:hover a {
-  color: #FFD700; 
-}
-
-.dropdown-content li:hover::before {
-  content: "→"; 
-  margin-right: 8px;
-  color: #FFD700;
-  font-weight: bold;
-}
-
-@media (max-width: 768px) {
-  nav ul {
-    flex-direction: column;
-    align-items: center;
-    padding: 10px 0;
-  }
-
-  nav ul li {
-    width: 100%;
-    text-align: center;
-  }
-
-  nav ul li a {
-    padding: 12px;
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 480px) {
-  nav ul li a {
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  body {
-    padding-top: 70px;
-  }
-}
+.links a:hover { color: #4a9eff; }
+.active { color: #fff !important; background: #e11d2e; padding: 8px 15px; border-radius: 4px; box-shadow: 0 0 10px #e11d2e; }
+.viewport { max-width: 1100px; margin: 40px auto; min-height: 85vh; padding: 0 20px; }
+.spider-footer { text-align: center; padding: 30px; color: #333; font-size: 0.7rem; font-weight: bold; font-family: monospace; }
 </style>
